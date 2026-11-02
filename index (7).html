@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>فيفان 🌸 أولى إعدادي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--p:#f06c9b;--p2:#ff9ec0;--pl:#fff0f5;--pm:#f9cfe0;--t:#4a2b3a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:Cairo,system-ui,Tahoma,sans-serif;background:linear-gradient(#fff,#fff5f9);color:var(--t);display:flex;flex-direction:column;max-width:700px;margin:0 auto}
+header{padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:0 0 22px 22px;box-shadow:0 4px 16px #f06c9b40}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.logo{width:46px;height:46px;border-radius:50%;background:#fff var(--av) center/cover;border:2px solid #fff}
+.top h1{margin:0;font-size:18px;line-height:1.2}.top small{opacity:.9;font-size:12px}
+.top div:nth-child(2){flex:1}
+#new,#out,#adm,#old{border:0;background:#ffffff38;color:#fff;border-radius:14px;padding:6px 12px;font:600 12px Cairo}
+#subs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.sub{flex:none;border:0;background:#ffffff30;color:#fff;border-radius:18px;padding:6px 12px;font:600 13px Cairo}
+.sub.on{background:#fff;color:var(--p)}.sub:disabled{opacity:.45}
+#chat{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:8px;align-items:flex-end}.row.me{justify-content:flex-end}
+.av{flex:none;width:32px;height:32px;border-radius:50%;background:var(--pl) var(--av) center/cover;border:1.5px solid var(--pm)}
+.m{max-width:88%;padding:11px 14px;border-radius:20px;line-height:1.85;font-size:15px;word-break:break-word}
+.bot .m{background:#fff;border:1.5px solid var(--pm);border-bottom-right-radius:6px;box-shadow:0 2px 8px #f06c9b14}
+.me .m{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-bottom-left-radius:6px}
+.body{white-space:pre-wrap}.body b{color:#d6477c}
+.fig{margin-top:10px;background:var(--pl);border:1.5px solid var(--pm);border-radius:14px;padding:8px}.fig svg{width:100%;height:auto;display:block}
+.src{font-size:12px;opacity:.65;margin-top:8px}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.acts button{border:1.5px solid var(--pm);background:var(--pl);color:var(--t);border-radius:14px;padding:4px 10px;font:600 12px Cairo}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0}
+.cards button{border:1.5px solid var(--pm);background:#fff;color:var(--t);border-radius:16px;padding:14px 8px;font:700 14px Cairo}
+.qz{margin:10px 0;padding:10px;background:var(--pl);border-radius:14px}.qz p{margin:0 0 8px;font-weight:700}
+.qz button{display:block;width:100%;text-align:right;margin:5px 0;border:1.5px solid var(--pm);background:#fff;border-radius:12px;padding:8px 10px;font:500 14px Cairo;color:var(--t)}
+.qz button.ok{background:#d7f5e3;border-color:#6fcf97}.qz button.no{background:#ffdce5;border-color:#f06c9b}
+.qz .ex{font-size:13px;margin-top:6px}
+.dots i{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:var(--p);animation:b 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,100%{opacity:.25}50%{opacity:1}}
+form{display:flex;gap:8px;padding:8px 12px calc(10px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1.5px solid var(--pm)}
+input{flex:1;padding:12px 16px;border:1.5px solid var(--pm);border-radius:24px;font:16px Cairo;background:var(--pl);color:var(--t);min-width:0;outline:none}
+input:focus{border-color:var(--p)}
+button.send{border:0;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:24px;padding:0 20px;font:700 15px Cairo}
+button:disabled{opacity:.5}
+.tool{flex:none;width:44px;border:1.5px solid var(--pm);background:var(--pl);border-radius:50%;font-size:19px;padding:0;color:var(--t)}
+.tool.rec{background:#ff4d6d;color:#fff;border-color:#ff4d6d;width:auto;padding:0 12px;border-radius:24px;font:700 14px Cairo;animation:b 1s infinite}
+#pend{display:none;padding:8px 14px 0;background:#fff}#pend.on{display:flex;align-items:center;gap:8px}
+#pend img{height:56px;border-radius:10px;border:1.5px solid var(--pm)}#pend button{border:0;background:var(--pl);border-radius:50%;width:26px;height:26px;color:var(--t)}
+#gate{position:fixed;inset:0;z-index:50;background:linear-gradient(#fff,#ffe3ee);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+#gate h2{margin:0;color:#d6477c}#gate p{margin:0;opacity:.8}
+.gl{width:112px;height:112px;border-radius:50%;background:#fff var(--av) center/cover;border:3px solid #fff;box-shadow:0 6px 20px #f06c9b55}
+#gbtn{border:0;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:26px;padding:14px 26px;font:700 16px Cairo;box-shadow:0 4px 14px #f06c9b55}
+#gerr{color:#d6477c;min-height:18px}
+#admP{position:fixed;inset:0;z-index:60;background:#fff;display:none;flex-direction:column;max-width:700px;margin:0 auto}#admP.on{display:flex}
+#admH{display:flex;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff}
+#admH b{flex:1}#admH button{border:0;background:#ffffff38;color:#fff;border-radius:12px;padding:6px 12px;font:600 13px Cairo}
+#admB{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.uc{display:flex;gap:10px;align-items:center;text-align:right;border:1.5px solid var(--pm);background:var(--pl);border-radius:14px;padding:10px;font:500 14px Cairo;color:var(--t)}
+.uc img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#fff}.uc small{display:block;opacity:.65}
+.am{padding:9px 12px;border-radius:14px;max-width:92%;white-space:pre-wrap;line-height:1.7;font-size:14px}
+.am.me{background:var(--pm);align-self:flex-end}.am.bot{background:var(--pl);border:1px solid var(--pm);align-self:flex-start}
+.bar{display:flex;gap:6px;margin-bottom:8px}.bar button{flex:1;padding:8px 6px;font-size:13px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="gate"><div class="gl"></div><h2>أهلًا بيكي مع فيفان 🌸</h2><p>سجّلي دخول بحساب جوجل عشان نحفظلك محادثاتك</p><button id="gbtn">🔐 سجّلي دخول بجوجل</button><small id="gerr"></small></div>
+<div id="admP"><div id="admH"><button id="admBack">رجوع</button><b id="admT">👑 لوحة الأدمن</b><button id="admX">إغلاق</button></div><div id="admB"></div></div>
+<header><div class="top"><div class="logo"></div><div><h1>فيفان</h1><small>مدرّستك الذكية • أولى إعدادي</small></div><button id="out">خروج</button></div><div class="bar"><button id="old">🕘 المحادثات القديمة</button><button id="new">✨ محادثة جديدة</button><button id="adm" hidden>👑 محادثات الطلاب</button></div><div id="subs"></div></header>
+<div id="chat"></div>
+<div id="pend"></div>
+<form id="f"><input id="file" type="file" accept="image/*" hidden><button type="button" class="tool" id="pic">📷</button><button type="button" class="tool" id="mic">🎤</button><input id="q" placeholder="اسألي أو ابعتي صورة / فويس..." autocomplete="off"><button class="send" id="b">إرسال</button></form>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {getFirestore,doc,setDoc,getDocs,collection,query,orderBy,serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+// من Firebase Console > Project settings > Your apps > Web app
+const FIREBASE_CONFIG={apiKey:'AIzaSyAesBkY73Duur2eI1F3EcAwE7-uMCevUeI',authDomain:'vefan-efb00.firebaseapp.com',projectId:'vefan-efb00',storageBucket:'vefan-efb00.firebasestorage.app',messagingSenderId:'909581683946',appId:'1:909581683946:web:b2c5b8c62bf64ee3125b93'};
+const ADMIN='markogorge18@gmail.com';
+const app=initializeApp(FIREBASE_CONFIG),auth=getAuth(app),db=getFirestore(app);
+let user=null,uname='',chatId=Date.now().toString(36),started=false;
+// بعد ما تعملي الـ Worker حطي رابطه هنا:
+const AV='data:image/jpeg;base64,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';
+document.documentElement.style.setProperty('--av','url('+AV+')');
+{const l=document.createElement('link');l.rel='icon';l.href=AV;document.head.appendChild(l)}
+const WORKER_URL='https://vivian-ai.markogorge18.workers.dev';
+const SUBJ=[['ict','تكنولوجيا المعلومات'],['arabic','اللغة العربية'],['english','الإنجليزي'],['math','الرياضيات'],['science','العلوم'],['social','الدراسات'],['religion','التربية الدينية']];
+const EMO={ict:'💻',arabic:'📚',english:'🔤',math:'➗',science:'🔬',social:'🌍',religion:'✝️'};
+const NAME=Object.fromEntries(SUBJ);
+const $=id=>document.getElementById(id);
+const STOP=new Set('ما ماذا هو هي هم في من علي الي عن هل ايه ايي يعني اشرح اشرحي اشرحلي لي لو ده دي دا كده انا انت كان كيف ازاي ليه امتي فين اللي بس مع او ان لا قول قولي عايزه عايز عاوز عاوزه ممكن لخص لخصي ارسم ارسمي اختبر اختبريني'.split(' '));
+let docs=[],df={},avg=1,scope='all',hist=[],tr=[],lastQ='';
+const norm=s=>s.replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase();
+const stem=w=>{w=w.replace(/^(وال|بال|لل|ال|و|ب|ل|ف)(?=.{3})/,'');if(w.length>4)w=w.replace(/(ات|ون|ين|ان)$/,'');return w};
+const toks=s=>norm(s).split(/[^\u0621-\u064Aa-z0-9]+/).map(stem).filter(w=>w.length>1&&!STOP.has(w));
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const md=s=>esc(s).replace(/^#+\s*(.+)$/gm,'<b>$1</b>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^\s*[\*\-] /gm,'• ');
+function row(cls){const r=document.createElement('div');r.className='row '+cls;if(cls==='bot'){const a=document.createElement('div');a.className='av';r.appendChild(a)}const m=document.createElement('div');m.className='m';r.appendChild(m);$('chat').appendChild(r);$('chat').scrollTop=1e9;return m}
+function cleanSvg(s){try{const d=new DOMParser().parseFromString(s.trim(),'image/svg+xml'),el=d.documentElement;if(el.nodeName!=='svg'||d.querySelector('parsererror'))return null;el.querySelectorAll('script,foreignObject,image,iframe,use').forEach(n=>n.remove());[el,...el.querySelectorAll('*')].forEach(n=>[...n.attributes].forEach(a=>{if(/^on/i.test(a.name)||/javascript:/i.test(a.value)||/href$/i.test(a.name))n.removeAttribute(a.name)}));el.removeAttribute('width');el.removeAttribute('height');if(!el.getAttribute('viewBox'))el.setAttribute('viewBox','0 0 400 260');return document.importNode(el,true)}catch(e){return null}}
+function renderBot(m,t,fin){
+  const svgs=[];t.replace(/```svg\s*([\s\S]*?)```|(<svg[\s\S]*?<\/svg>)/g,(_,a,b)=>{svgs.push(a||b)});
+  const shown=t.replace(/```svg[\s\S]*?```|<svg[\s\S]*?<\/svg>/g,'').replace(/```svg[\s\S]*$/,fin?'':'🎨 برسم الشكل...').trim();
+  m.innerHTML='<div class="body">'+md(shown)+'</div>';
+  if(fin)svgs.forEach(s=>{const el=cleanSvg(s);if(el){const d=document.createElement('div');d.className='fig';d.appendChild(el);m.appendChild(d)}});
+}
+function acts(m,text){
+  const a=document.createElement('div');a.className='acts';
+  [['📋 نسخ',e=>{navigator.clipboard?.writeText(text);e.target.textContent='✅ تم'}],['📝 لخّصي',()=>ask('لخصيلي ده في ملخص منظم','sum')],['🎨 ارسمي',()=>ask('ارسميلي شكل يوضح ده','draw')],['🧠 اختبريني',()=>ask('اختبريني في ده','quiz')]].forEach(([l,f])=>{const b=document.createElement('button');b.textContent=l;b.onclick=f;a.appendChild(b)});
+  m.appendChild(a);
+}
+function renderQuiz(m,arr){
+  m.innerHTML='<div class="body"><b>🧠 اختبار سريع — اختاري الإجابة الصح</b></div>';let done=0,score=0;
+  arr.forEach(it=>{const d=document.createElement('div');d.className='qz';d.innerHTML='<p>'+esc(it.q)+'</p>';
+    it.o.forEach((o,i)=>{const b=document.createElement('button');b.textContent=o;b.onclick=()=>{[...d.querySelectorAll('button')].forEach((x,j)=>{x.disabled=true;if(j===it.a)x.className='ok'});if(i===it.a)score++;else b.className='no';const e=document.createElement('div');e.className='ex';e.textContent=(i===it.a?'✅ برافو! ':'❌ لا: ')+(it.e||'');d.appendChild(e);if(++done===arr.length){const r=document.createElement('div');r.className='body';r.innerHTML='<b>🎉 نتيجتك '+score+' من '+arr.length+(score===arr.length?' — ممتازة!':score>=arr.length/2?' — حلو أوي، كمّلي!':' — محتاجة مراجعة بسيطة وأنا معاكي 💗')+'</b>';m.appendChild(r)}};d.appendChild(b)});m.appendChild(d)});
+}
+const hdr=async()=>({'Content-Type':'application/json','Authorization':'Bearer '+await user.getIdToken()});
+const saveTr=()=>{try{localStorage.setItem('tr_'+user.uid,JSON.stringify({tr:tr.slice(-60),hist:hist.slice(-12),cid:chatId}))}catch(e){}cloud()};
+async function cloud(){
+  if(!user)return;
+  try{
+    await setDoc(doc(db,'users',user.uid),{name:user.displayName||'',email:user.email||'',photo:user.photoURL||'',lastSeen:serverTimestamp()},{merge:true});
+    if(tr.length)await setDoc(doc(db,'users',user.uid,'chats',chatId),{title:((tr.find(x=>x.c==='me')||{}).t||'محادثة').slice(0,60),updatedAt:serverTimestamp(),messages:tr.slice(-60).map(x=>({c:x.c,t:String(x.t).slice(0,6000)}))},{merge:true});
+  }catch(e){}
+}
+function greet(){
+  const d=new Date(),h=d.getHours(),n=uname?' يا '+uname:' يا حبيبتي';
+  const G={
+    am:['صباح الخير'+n+' ☀️ يلا نبدأ يومنا بحاجة حلوة!','صباح الورد'+n+' 🌸 جاهزة نذاكر سوا؟','صباح النشاط'+n+' ✨ إيه أول حاجة نبدأ بيها النهارده؟'],
+    noon:['نهارك سعيد'+n+' 🌼 عاملة إيه؟ نذاكر إيه دلوقتي؟','أهلًا'+n+' 😊 وقت حلو نراجع فيه حاجة!','إزيك'+n+' 💗 قوليلي إيه اللي محتاجة تفهميه النهارده.'],
+    eve:['مساء الخير'+n+' 🌷 خلصتي يومك؟ تعالي نراجع شوية!','أهلًا'+n+' 🌸 مساء التركيز! تحبي نبدأ بأنهي مادة؟','مساء النور'+n+' ✨ جاهزة أساعدك في واجباتك.'],
+    night:['مساء النور'+n+' 🌙 ذاكري شوية وبعدين ريّحي عشان تصحي نشيطة!','أهلًا'+n+' 🌟 الليل هادي ومناسب للمراجعة، بس متسهريش أوي.','ليلة سعيدة'+n+' 💤 نراجع حاجة سريعة قبل النوم؟']
+  };
+  const a=G[h>=5&&h<12?'am':h>=12&&h<16?'noon':h>=16&&h<21?'eve':'night'];
+  return a[Math.floor(Math.random()*a.length)]+(d.getDay()===5?'\nوجمعة مباركة عليكي 💗':'')+'\nأنا **فيفان**، بشرحلك من كتبك إنتي بالظبط. اسأليني في أي مادة أو اختاري من هنا:';
+}
+function welcome(){
+  renderBot(row('bot'),greet(),true);
+  const c=document.createElement('div');c.className='cards';
+  [['📖 اشرحي لي','اشرحي لي '],['📝 لخّصي لي','لخصي لي '],['🎨 ارسمي لي','ارسمي لي '],['🧠 اختبريني في','اختبريني في ']].forEach(([l,p])=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>{$('q').value=p;$('q').focus()};c.appendChild(b)});
+  $('chat').appendChild(c);
+}
+function reset(){tr=[];hist=[];lastQ='';chatId=Date.now().toString(36);$('chat').innerHTML='';saveTr();welcome()}
+async function init(){
+  try{const s=JSON.parse(localStorage.getItem('tr_'+user.uid)||'null');if(s){tr=s.tr||[];hist=s.hist||[];if(s.cid)chatId=s.cid}}catch(e){}
+  if(tr.length)tr.forEach(x=>{const m=row(x.c);if(x.c==='bot'){renderBot(m,x.t,true);acts(m,x.t)}else m.textContent=x.t});else welcome();
+  const all=document.createElement('button');all.className='sub on';all.textContent='الكل 🌸';all.onclick=()=>setScope('all',all);$('subs').appendChild(all);
+  for(const [id,name] of SUBJ){
+    const b=document.createElement('button');b.className='sub';b.textContent=EMO[id]+' '+name;b.disabled=true;$('subs').appendChild(b);
+    fetch('data/'+id+'.json').then(r=>r.ok?r:fetch(id+'.json')).then(r=>r.ok?r.json():Promise.reject()).then(d=>{index(id,d.pages);b.disabled=false;b.onclick=()=>setScope(id,b)}).catch(()=>{b.textContent=name+' (قريبًا)'});
+  }
+}
+function index(id,pages){
+  for(const p of pages){const tf={};let n=0;for(const t of toks(p.text)){tf[t]=(tf[t]||0)+1;n++}docs.push({s:id,p:p.p,t:p.text,tf,n,nm:norm(p.text)});for(const t in tf)df[t]=(df[t]||0)+1}
+  avg=docs.reduce((a,d)=>a+d.n,0)/docs.length||1;
+}
+function setScope(id,b){scope=id;document.querySelectorAll('.sub').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+function search(q){
+  const qt=[...new Set(toks(q))],N=docs.length,nq=norm(q).trim(),pool=docs.filter(d=>scope==='all'||d.s===scope);
+  const sc=pool.map(d=>{let s=0;for(const t of qt){const f=d.tf[t];if(!f)continue;const idf=Math.log(1+(N-(df[t]||0)+.5)/((df[t]||0)+.5));s+=idf*f*2.2/(f+1.2*(.25+.75*d.n/avg))}
+    if(nq.length>6&&d.nm.includes(nq))s+=6;return [s,d]}).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).slice(0,5).map(x=>x[1]);
+  if(sc[0]){const nx=docs.find(d=>d.s===sc[0].s&&d.p===sc[0].p+1);if(nx&&!sc.includes(nx))sc.splice(1,0,nx)}
+  return sc.slice(0,6);
+}
+const SVGR='ضيفي رسمة SVG بسيطة وجميلة جوه ```svg ... ``` بـ viewBox="0 0 400 260"، ألوان باستيل (وردي/أزرق فاتح/أخضر/أصفر)، أسهم وصناديق مرتبة، ونصوص عربي قصيرة بـ text-anchor="middle" و font-size="14"، من غير صور خارجية ولا سكريبت.';
+const MODE={
+ sum:'المطلوب الآن: ملخص منظم للموضوع بالشكل ده: 📌 العنوان، 🔑 أهم النقاط (نقط قصيرة)، 📖 تعريفات مهمة بمصطلحات الكتاب، 🧮 قوانين أو قواعد لو موجودة، ⚠️ ركّزي في الامتحان. وبعدها '+SVGR+' لو المخطط هيفيد.',
+ draw:'المطلوب الآن: رسم توضيحي. اكتبي سطرين شرح، وبعدهم '+SVGR,
+ quiz:'المطلوب الآن: أرجعي JSON فقط بدون أي كلام قبله أو بعده، بالشكل: [{"q":"السؤال","o":["أ","ب","ج","د"],"a":0,"e":"شرح قصير للإجابة الصح"}] — 5 أسئلة اختيار من متعدد من المقتطفات فقط، a هو رقم الإجابة الصح (0 إلى 3)، وتنوعي في الصعوبة.'
+};
+const SYS=(sc,mode)=>`أنتِ "فيفان"، مدرّسة بنت ذكية وحنينة ومرحة لطلاب الصف الأول الإعدادي في مصر. بتتكلمي بالعامية المصرية البسيطة وبصيغة المؤنث عن نفسك، وبتشجعي الطالبة.
+القواعد:
+1) أجيبي من مقتطفات الكتاب المرفقة فقط ولا تألفي. اربطي بين المقتطفات واستخدمي تعريفات الكتاب بنفس مصطلحاته عشان الامتحان. لو الإجابة مش موجودة أو ناقصة قولي كده بصراحة، ولو السؤال برا المنهج قولي "ده برا منهجك" وساعديها بإيجاز.
+2) شكل الإجابة: ✨ **الخلاصة** (الإجابة المباشرة في سطر أو اتنين)، بعدها 📖 **الشرح** في خطوات مرقمة قصيرة بتبسيط وتشبيه من حياتها، بعدها 💡 **مثال**، وبعدها ⚠️ **خلي بالك** (غلطة شائعة) لو في، وأخيرًا سؤال صغير تتأكد بيه إنها فهمت. الطول حوالي 150-250 كلمة إلا لو طلبت تفصيل.
+3) المسائل (رياضيات/علوم): حلّي خطوة خطوة وكل خطوة في سطر، وراجعي الناتج.
+4) لو غلطت صححيلها بلطف وقوليلها ليه.
+5) الإنجليزي: اشرحي بالعربي وسيبي الكلمات والجمل الإنجليزي مع ترجمتها.
+6) لو الشرح هيتوضح برسم (دورة، تركيب، خريطة مفاهيم، شكل هندسي، خط زمني) ضيفي رسمة SVG جوه \`\`\`svg ... \`\`\` بنفس الشروط: viewBox="0 0 400 260" وألوان باستيل ونصوص عربي قصيرة بدون صور أو سكريبت.
+7) اختمي بذكر المادة ورقم الصفحة اللي أخدتي منها. استخدمي **الخط الغامق** للمصطلحات وإيموجي بسيط، والرد مناسب للموبايل.
+8) لو الطالبة بعتت صورة: اقري اللي فيها (سؤال، مسألة، درس، رسمة، أو واجب بخط إيد) وجاوبي أو حلّي خطوة خطوة بالاعتماد على مقتطفات الكتاب، وصححي الواجب بلطف لو فيه غلط. ولو الصورة مش واضحة اطلبي منها تصورها تاني.
+اسم الطالبة: ${uname||'غير معروف'} (نادي عليها باسمها أحيانًا بشكل طبيعي).
+المادة المختارة: ${sc}.
+${MODE[mode]||''}`;
+let pend=null,rec=null,chunks=[],tm=0;
+const b64=u8=>{let s='';for(let i=0;i<u8.length;i+=32768)s+=String.fromCharCode.apply(null,u8.subarray(i,i+32768));return btoa(s)};
+function showPend(){const p=$('pend');p.className=pend?'on':'';p.innerHTML='';if(pend){const i=document.createElement('img');i.src=pend.url;const x=document.createElement('button');x.textContent='✕';x.onclick=()=>{pend=null;showPend()};p.append(i,x)}}
+function shrink(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const url=c.toDataURL('image/jpeg',.82);URL.revokeObjectURL(u);res({mime:'image/jpeg',data:url.split(',')[1],url})};im.onerror=rej;im.src=u})}
+async function toWav(blob){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)(),buf=await ctx.decodeAudioData(await blob.arrayBuffer());ctx.close();
+  const sr=16000,len=Math.max(1,Math.floor(buf.duration*sr)),off=new OfflineAudioContext(1,len,sr),src=off.createBufferSource();src.buffer=buf;src.connect(off.destination);src.start();
+  const out=(await off.startRendering()).getChannelData(0),w=new DataView(new ArrayBuffer(44+len*2)),S=(o,t)=>[...t].forEach((c,i)=>w.setUint8(o+i,c.charCodeAt(0)));
+  S(0,'RIFF');w.setUint32(4,36+len*2,true);S(8,'WAVEfmt ');w.setUint32(16,16,true);w.setUint16(20,1,true);w.setUint16(22,1,true);w.setUint32(24,sr,true);w.setUint32(28,sr*2,true);w.setUint16(32,2,true);w.setUint16(34,16,true);S(36,'data');w.setUint32(40,len*2,true);
+  for(let i=0;i<len;i++){const v=Math.max(-1,Math.min(1,out[i]));w.setInt16(44+i*2,v<0?v*32768:v*32767,true)}
+  return b64(new Uint8Array(w.buffer));
+}
+async function pre(parts){const r=await fetch(WORKER_URL,{method:'POST',headers:await hdr(),body:JSON.stringify({stream:false,contents:[{role:'user',parts}]})});const j=await r.json();return(j.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('')||'').trim()}
+async function sendVoice(blob){
+  if(WORKER_URL.startsWith('PUT'))return renderBot(row('bot'),'لسه محتاجين نربط الـ Worker (شوفي الخطوات).',true);
+  const tmp=row('me');tmp.textContent='🎤 بسمع الفويس...';
+  try{
+    const t=await pre([{inline_data:{mime_type:'audio/wav',data:await toWav(blob)}},{text:'اكتبي بالحرف الكلام اللي في التسجيل الصوتي (عربي مصري أو إنجليزي) من غير أي إضافة أو شرح.'}]);
+    tmp.parentNode.remove();
+    if(!t)return renderBot(row('bot'),'مسمعتش كويس 🙈 ممكن تعيدي الفويس أو تكتبي سؤالك؟',true);
+    ask(t,undefined,{voice:true});
+  }catch(e){tmp.parentNode.remove();renderBot(row('bot'),'معرفتش أسمع الفويس، جربي تاني أو اكتبي سؤالك 🌸',true)}
+}
+$('pic').onclick=()=>$('file').click();
+$('file').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{pend=await shrink(f);showPend();$('q').focus()}catch(x){}};
+$('mic').onclick=async()=>{
+  if(rec){rec.stop();return}
+  try{
+    const st=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];const r=new MediaRecorder(st);rec=r;
+    r.ondataavailable=e=>chunks.push(e.data);
+    r.onstop=()=>{st.getTracks().forEach(t=>t.stop());clearInterval(tm);$('mic').className='tool';$('mic').textContent='🎤';const blob=new Blob(chunks,{type:r.mimeType});rec=null;if(blob.size>2000)sendVoice(blob)};
+    r.start();$('mic').className='tool rec';let n=0;$('mic').textContent='⏹ 0';tm=setInterval(()=>{$('mic').textContent='⏹ '+(++n);if(n>=90)r.stop()},1000);
+  }catch(e){alert('لازم تسمحي بالميكروفون عشان أسمعك 🎤')}
+};
+async function ask(q,mode,media){
+  q=(q||'').trim();const img=pend;if(!q&&img)q='اشرحيلي اللي في الصورة دي، ولو فيها سؤال أو مسألة حلّيها خطوة خطوة';if(!q||$('b').disabled)return;
+  if(WORKER_URL.startsWith('PUT'))return renderBot(row('bot'),'لسه محتاجين نربط الـ Worker (شوفي الخطوات).',true);
+  if(!mode){if(/(ارسم|رسم|صور[هةي]|وضح(?:ي)? بالرسم|شكل يوضح)/.test(q))mode='draw';else if(/(لخص|ملخص|تلخيص)/.test(q))mode='sum';else if(/(اختبر|امتحان|اسئل[هة] عل)/.test(norm(q)))mode='quiz'}
+  $('q').value='';$('b').disabled=true;pend=null;showPend();const mb=row('me');if(img){const im=document.createElement('img');im.src=img.url;im.style.cssText='max-width:100%;border-radius:12px;display:block;margin-bottom:6px';mb.appendChild(im)}mb.appendChild(document.createTextNode((media&&media.voice?'🎤 ':'')+q));tr.push({c:'me',t:(img?'📷 ':'')+(media&&media.voice?'🎤 ':'')+q});
+  const w=row('bot');w.innerHTML='<span class="dots"><i></i><i></i><i></i></span>';
+  let extra='';if(img){try{extra=await pre([{inline_data:{mime_type:img.mime,data:img.data}},{text:'اكتبي بالحرف أي نص أو سؤال أو مسألة في الصورة، ولو مفيش نص اوصفيها في سطر واحد. من غير شرح.'}])}catch(e){}}
+  const sq=((mode||q.length<25)&&lastQ?lastQ+' '+q:q)+' '+extra;if(!mode||q.length>=25||img)lastQ=q+' '+extra;
+  const hits=search(sq),ctx=hits.map(h=>`[${NAME[h.s]} — صفحة ${h.p}]\n${h.t.slice(0,2400)}`).join('\n\n---\n\n');
+  const contents=hist.slice(-6).map(m=>({role:m.r,parts:[{text:m.t}]}));
+  const up=[{text:`مقتطفات من الكتاب:\n${ctx||'(مفيش مقتطف مناسب)'}\n\nكلام الطالبة: ${q}${img?'\n(مرفق صورة من الطالبة)':''}`}];if(img)up.push({inline_data:{mime_type:img.mime,data:img.data}});
+  contents.push({role:'user',parts:up});
+  let ans='';
+  try{
+    const r=await fetch(WORKER_URL,{method:'POST',headers:await hdr(),body:JSON.stringify({systemInstruction:{parts:[{text:SYS(scope==='all'?'كل المواد (حددي المادة من المقتطفات)':NAME[scope],mode)}]},contents})});
+    if(!r.ok)throw 0;
+    const rd=r.body.getReader(),dec=new TextDecoder();let buf='';
+    for(;;){const {done,value}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});let i;
+      while((i=buf.indexOf('\n'))>=0){const line=buf.slice(0,i).trim();buf=buf.slice(i+1);
+        if(line.startsWith('data:')){try{const j=JSON.parse(line.slice(5)),t=j.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('');if(t){ans+=t;if(mode!=='quiz'){renderBot(w,ans,false);$('chat').scrollTop=1e9}}}catch(e){}}}}
+    if(!ans)throw 0;
+    if(mode==='quiz'){
+      const arr=JSON.parse(ans.replace(/```json|```/g,'').trim());renderQuiz(w,arr);hist.push({r:'user',t:(img?'[صورة] ':'')+q},{r:'model',t:'(عملتلها اختبار)'});tr.pop();
+    }else{
+      renderBot(w,ans,true);
+      if(hits.length){const s=document.createElement('div');s.className='src';s.textContent='📄 '+[...new Set(hits.map(h=>NAME[h.s]+' ص'+h.p))].join(' • ');w.appendChild(s)}
+      acts(w,ans.replace(/```svg[\s\S]*?```/g,''));hist.push({r:'user',t:(img?'[صورة] ':'')+q},{r:'model',t:ans.replace(/```svg[\s\S]*?```/g,'(رسمة)')});tr.push({c:'bot',t:ans});
+    }
+    saveTr();
+  }catch(e){w.textContent='حصلت مشكلة صغيرة، جربي تاني بعد شوية 🌸';tr.pop()}
+  $('b').disabled=false;$('chat').scrollTop=1e9;
+}
+$('f').onsubmit=e=>{e.preventDefault();ask($('q').value)};
+$('new').onclick=reset;
+const admB=$('admB');let backFn=null;const setBack=f=>{backFn=f;$('admBack').style.visibility=f?'visible':'hidden'};
+const when=t=>t&&t.toDate?t.toDate().toLocaleString('ar-EG'):'';
+const card=(u,sub,fn)=>{const b=document.createElement('button');b.className='uc';b.style.width='100%';if(u.photo){const i=document.createElement('img');i.src=u.photo;i.referrerPolicy='no-referrer';b.appendChild(i)}const d=document.createElement('div');d.textContent=u.name||u.title||'—';const sm=document.createElement('small');sm.textContent=sub;d.appendChild(sm);b.appendChild(d);b.onclick=fn;return b};
+async function admUsers(){
+  setBack(null);$('admT').textContent='👑 الطلاب';admB.textContent='جاري التحميل...';
+  try{const sn=await getDocs(collection(db,'users')),a=sn.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>((y.lastSeen&&y.lastSeen.seconds)||0)-((x.lastSeen&&x.lastSeen.seconds)||0));
+    $('admT').textContent='👑 الطلاب ('+a.length+')';admB.textContent='';a.forEach(u=>admB.appendChild(card(u,(u.email||'')+' • '+when(u.lastSeen),()=>admChats(u))));if(!a.length)admB.textContent='مفيش طلاب لسه.'}
+  catch(e){admB.textContent='مش قادرة أقرا البيانات — تأكدي من قواعد Firestore.'}
+}
+async function admChats(u){
+  setBack(admUsers);$('admT').textContent='💬 '+(u.name||u.email);admB.textContent='جاري التحميل...';
+  try{const sn=await getDocs(query(collection(db,'users',u.id,'chats'),orderBy('updatedAt','desc')));admB.textContent='';
+    sn.docs.forEach(d=>{const c=d.data();admB.appendChild(card({title:c.title},(c.messages||[]).length+' رسالة • '+when(c.updatedAt),()=>admView(u,c)))});if(!sn.docs.length)admB.textContent='مفيش محادثات.'}
+  catch(e){admB.textContent='حصلت مشكلة في التحميل.'}
+}
+function admView(u,c){
+  setBack(()=>admChats(u));$('admT').textContent=(c.title||'محادثة').slice(0,28);admB.textContent='';
+  (c.messages||[]).forEach(m=>{const d=document.createElement('div');d.className='am '+m.c;if(m.c==='bot')d.innerHTML=md(m.t.replace(/```svg[\s\S]*?```/g,'(رسمة)'));else d.textContent=m.t;admB.appendChild(d)});
+}
+$('admBack').onclick=()=>backFn?backFn():0;
+$('admX').onclick=()=>$('admP').classList.remove('on');
+$('adm').onclick=()=>{$('admP').classList.add('on');admUsers()};
+async function myChats(){
+  $('admP').classList.add('on');setBack(null);$('admT').textContent='🕘 محادثاتي القديمة';admB.textContent='جاري التحميل...';
+  try{const sn=await getDocs(query(collection(db,'users',user.uid,'chats'),orderBy('updatedAt','desc')));admB.textContent='';
+    sn.docs.forEach(d=>{const c=d.data();admB.appendChild(card({title:c.title},(c.messages||[]).length+' رسالة • '+when(c.updatedAt),()=>loadChat(d.id,c)))});
+    if(!sn.docs.length)admB.textContent='لسه مفيش محادثات قديمة 🌸'}
+  catch(e){admB.textContent='مش قادرة أحمّل المحادثات دلوقتي.'}
+}
+function loadChat(id,c){
+  chatId=id;tr=(c.messages||[]).map(m=>({c:m.c,t:m.t}));hist=tr.slice(-12).map(m=>({r:m.c==='me'?'user':'model',t:m.t}));lastQ='';
+  $('chat').innerHTML='';tr.forEach(x=>{const m=row(x.c);if(x.c==='bot'){renderBot(m,x.t,true);acts(m,x.t)}else m.textContent=x.t});
+  $('admP').classList.remove('on');saveTr();
+}
+$('old').onclick=myChats;
+$('out').onclick=async()=>{await signOut(auth);location.reload()};
+$('gbtn').onclick=async()=>{
+  if(FIREBASE_CONFIG.apiKey.startsWith('PUT'))return $('gerr').textContent='لسه محتاجين نحط إعدادات Firebase في الكود.';
+  const pr=new GoogleAuthProvider();
+  try{await signInWithPopup(auth,pr)}catch(e){if(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment')signInWithRedirect(auth,pr);else if(e.code!=='auth/popup-closed-by-user')$('gerr').textContent='معرفتش أسجّل دخول ('+(e.code||'خطأ')+')'}
+};
+onAuthStateChanged(auth,u=>{
+  if(!u)return;user=u;uname=(u.displayName||'').split(' ')[0];$('gate').style.display='none';
+  if((u.email||'').toLowerCase()===ADMIN&&u.emailVerified!==false)$('adm').hidden=false;
+  if(!started){started=true;init();cloud()}
+});
+</script>
+</body>
+</html>
