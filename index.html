@@ -190,7 +190,7 @@ const snd=k=>{if(SOFF||!SN[k])return;try{const a=SN[k];a.currentTime=0;const p=a
 const drawMu=()=>['mu','rmMu'].forEach(i=>{const e=document.getElementById(i);if(e){e.textContent=SOFF?'🔕':'🔔';e.title=SOFF?'الصوت مكتوم':'الصوت شغال'}});
 const togMu=()=>{SOFF=!SOFF;try{localStorage.setItem('snd_off',SOFF?'1':'0')}catch(e){}drawMu();snd('nt')};
 const unlockSnd=()=>{removeEventListener('pointerdown',unlockSnd,true);Object.values(SN).forEach(a=>{a.muted=true;const p=a.play();(p&&p.then?p:Promise.resolve()).then(()=>{a.pause();a.currentTime=0;a.muted=false}).catch(()=>{a.muted=false})})};addEventListener('pointerdown',unlockSnd,true);
-const WORKER_URL='https://vivian-ai.markogorge18.workers.dev';
+const WORKER_URL='https://steep-smoke-410b.markogorge18.workers.dev';
 let USC=null;const usersAll=async f=>{if(!f&&USC&&Date.now()-USC.t<12e4)return USC.d;const d=(await getDocs(collection(db,'users'))).docs;USC={t:Date.now(),d};return d}; // كاش الطلاب دقيقتين: لوحة الأدمن بتفتح فورًا
 async function loadBook(id){const k='/__bk/'+id;let c=null,hit=null;try{c=await caches.open('bk1');hit=await c.match(k)}catch(e){}
   const net=(async()=>{let r;try{r=await fetch(WORKER_URL,{method:'POST',headers:await hdr(),body:JSON.stringify({book:id})})}catch(e){}
