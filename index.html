@@ -591,7 +591,7 @@ function applyBlk(){const c=R.c;if(!c||c.kind!=='dm'||c.ro)return;
   if(mine){box.append('🚫 إنت عامل بلوك للشخص ده');const b=mk('button');b.type='button';b.textContent='إلغاء البلوك';b.onclick=()=>setBlk(false);box.append(b)}
   else if(theirs)box.textContent='مش تقدر تبعت رسايل في المحادثة دي'}
 async function setBlk(on){const c=R.c;if(!c||c.kind!=='dm'||c.ro)return;const me=user.uid;
-  try{if(on)await setDoc(doc(db,...c.path),{members:[me,c.peer.uid],mem:dmMem(c.peer),blk:{[me]:true}},{merge:true});else await updateDoc(doc(db,...c.path),{['blk.'+me]:deleteField()})}
+  try{if(on)await setDoc(doc(db,...c.path),{members:[me,c.peer.uid].sort(),mem:dmMem(c.peer),blk:{[me]:true}},{merge:true});else await updateDoc(doc(db,...c.path),{['blk.'+me]:deleteField()})}
   catch(e){alert('معرفتش أنفّذ دلوقتي، جرّب تاني')}}
 function dmInfo(){const c=R.c,pe=c.peer,mine=!!((c.d&&c.d.blk)||{})[user.uid];
   sheet(s=>{const h=mk('h3');h.textContent=pe.n;h.style.cssText='margin:0 0 6px;text-align:center';s.append(h,cv({p:pe.p,n:pe.n,title:pe.n,sub:pe.u?'@'+pe.u:''}));
@@ -661,7 +661,7 @@ async function send(x){
     lt=t?t.slice(0,60):x.im?'📷 صورة':'🎤 فويس';
   bt.set(mr,{u:user.uid,n:myN(),a,at:serverTimestamp(),...x,...(mn.length?{mn}:{}),...(R.rp?{rp:R.rp}:{})});
   if(c.kind==='grp')bt.update(doc(db,...c.path),{lastAt:serverTimestamp(),lastT:lt,lastN:myN(),lastU:user.uid,lastMn:mn});
-  else if(c.kind==='dm'){const pe=c.peer,me=user.uid;bt.set(doc(db,...c.path),{members:[me,pe.uid],mem:{[me]:{n:myN(),u:myU(),p:myP()},[pe.uid]:{u:pe.u,...(pe.n&&pe.n[0]!=='@'?{n:pe.n}:{}),...(pe.p?{p:pe.p}:{})}},lastAt:serverTimestamp(),lastT:lt,lastN:myN(),lastU:me},{merge:true})}
+  else if(c.kind==='dm'){const pe=c.peer,me=user.uid;bt.set(doc(db,...c.path),{members:[me,pe.uid].sort(),mem:{[me]:{n:myN(),u:myU(),p:myP()},[pe.uid]:{u:pe.u,...(pe.n&&pe.n[0]!=='@'?{n:pe.n}:{}),...(pe.p?{p:pe.p}:{})}},lastAt:serverTimestamp(),lastT:lt,lastN:myN(),lastU:me},{merge:true})}
   else bt.set(doc(db,...c.path),{lastAt:serverTimestamp(),lastT:lt,lastBy:a?'a':'u',[a?'unU':'unA']:increment(1),...(a?{}:{n:uname,un:handle,p:myP()})},{merge:true});
   rpOff();try{await bt.commit();snd('sd');if(c.kind==='grp'&&a&&mn.includes('ai'))runAI(t)}catch(e){alert('الرسالة ماتبعتش، تأكد من النت وقواعد Firestore')}}
 function updBtn(){const i=$('rmIn'),v=i.value.trim(),b=$('rmSend');b.textContent=v?'➤':'🎤';b.classList.toggle('go',!!v);i.style.height='auto';i.style.height=Math.min(i.scrollHeight,110)+'px'}
