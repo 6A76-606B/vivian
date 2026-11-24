@@ -525,9 +525,10 @@ function loadChat(id,c){
 $('old').onclick=myChats;
 $('out').onclick=()=>openMe();
 const NATIVE=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
+const NP=n=>{try{const C=window.Capacitor;return(C.Plugins&&C.Plugins[n])||(C.registerPlugin?C.registerPlugin(n):undefined)}catch(e){}}; // بلجن أندرويد: لو مش متسجّل في Capacitor.Plugins بنسجّله بالاسم
 $('gbtn').onclick=async()=>{
   if(FIREBASE_CONFIG.apiKey.startsWith('PUT'))return $('gerr').textContent='لسه محتاجين نحط إعدادات Firebase في الكود.';
-  if(NATIVE){try{const r=await Capacitor.Plugins.FirebaseAuthentication.signInWithGoogle();await signInWithCredential(auth,GoogleAuthProvider.credential(r.credential&&r.credential.idToken))}catch(e){$('gerr').textContent='معرفتش أسجّل دخول ('+(e.code||e.message||'خطأ')+')'}return}
+  if(NATIVE){try{const r=await NP('FirebaseAuthentication').signInWithGoogle();await signInWithCredential(auth,GoogleAuthProvider.credential(r.credential&&r.credential.idToken))}catch(e){$('gerr').textContent='معرفتش أسجّل دخول ('+(e.code||e.message||'خطأ')+')'}return}
   const pr=new GoogleAuthProvider();
   try{await signInWithPopup(auth,pr)}catch(e){if(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment')signInWithRedirect(auth,pr);else if(e.code!=='auth/popup-closed-by-user')$('gerr').textContent='معرفتش أسجّل دخول ('+(e.code||'خطأ')+')'}
 };
@@ -783,8 +784,8 @@ $('rmFl').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f||
 function fileCard(m){const f=m.fl,p=R.c.path,d=mk('div','fl'),ic=mk('i'),nm=mk('div','fn'),b=mk('b'),sm=mk('small'),bt=mk('button');
   ic.textContent=fic(f.n);b.textContent=f.n;sm.textContent=fsz(f.s||0);nm.append(b,sm);bt.type='button';bt.textContent='⬇️ فتح';
   bt.onclick=async()=>{bt.disabled=true;bt.textContent='…';try{const P=[];for(let i=0;i<f.c;i++){const sn=await getDoc(doc(db,...p,'media',f.id+'_'+i));if(!sn.exists())throw 0;P.push(sn.data().d)}const data=P.join('');
-      const C=window.Capacitor&&Capacitor.Plugins;
-      if(NATIVE&&C&&C.Filesystem&&C.Share){const w=await C.Filesystem.writeFile({path:f.n.replace(/[\\/:*?"<>|]/g,'_'),data,directory:'CACHE'});await C.Share.share({title:f.n,url:w.uri,dialogTitle:f.n})}
+      const FS=NATIVE&&NP('Filesystem'),SH=NATIVE&&NP('Share');
+      if(FS&&SH){const w=await FS.writeFile({path:f.n.replace(/[\\/:*?"<>|]/g,'_'),data,directory:'CACHE'});await SH.share({title:f.n,url:w.uri,dialogTitle:f.n})}
       else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([Uint8Array.from(atob(data),ch=>ch.charCodeAt(0))],{type:f.m||'application/octet-stream'}));a.download=f.n;document.body.append(a);a.click();a.remove()}
     }catch(e){alert('الملف ماتحمّلش')}bt.disabled=false;bt.textContent='⬇️ فتح'};
   d.append(ic,nm,bt);return d}
@@ -1025,7 +1026,7 @@ const ltr=()=>{const i=mk('i');i.textContent=(uname||'?')[0];i.style.background=
 const sqp=f=>new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const m=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=128;c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,128,128);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.75))};im.onerror=rej;im.src=u});
 function syncMem(p){const u={};Object.entries(p).forEach(([k,v])=>u['mem.'+user.uid+'.'+k]=v);[...GRS.map(g=>['groups',g.id]),...DMS.map(d=>['dms',d.id])].forEach(x=>updateDoc(doc(db,...x),u).catch(()=>{}))}
 async function openMe(){
-  const out=async()=>{await pushOff();await signOut(auth);try{if(NATIVE)await Capacitor.Plugins.FirebaseAuthentication.signOut()}catch(e){}location.reload()};
+  const out=async()=>{await pushOff();await signOut(auth);try{if(NATIVE)await NP('FirebaseAuthentication').signOut()}catch(e){}location.reload()};
   if(isAdm(user))return sheet(s=>{const t=cv({a:1,title:ADM_NAME+' 👑',sub:'الأدمن'});t.style.pointerEvents='none';s.append(t);const b=mk('button','cv');b.type='button';b.textContent='🚪 تسجيل خروج';b.onclick=out;s.append(b)});
   let chg={};try{const d=await getDoc(doc(db,'users',user.uid));chg=(d.exists()&&d.data().chg)||{}}catch(e){}
   const left=k=>Math.max(0,Math.ceil((WK-(Date.now()-(+chg[k]||0)))/864e5));
@@ -1083,7 +1084,7 @@ function pcTab(){const L=PCH.filter(x=>x.st==='pending').sort((a,b)=>ms(b.at)-ms
 const hideLd=()=>{const l=$('ld');if(!l||l._h)return;l._h=1;l.classList.add('out');setTimeout(()=>l.remove(),450)};
 setTimeout(hideLd,15000);
 // ===== إشعارات FCM (أندرويد): التوكن بيتخزن في fcm/{uid} والـ Worker هو اللي بيبعت
-const FM=()=>NATIVE&&window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.FirebaseMessaging;
+const FM=()=>NATIVE&&NP('FirebaseMessaging');
 let fcmTok='',fcmOn=0;
 const saveTok=t=>{if(!t||!user)return;fcmTok=t;setDoc(doc(db,'fcm',user.uid),{t:arrayUnion(t),at:serverTimestamp()},{merge:true}).catch(()=>{})};
 async function pushInit(){
