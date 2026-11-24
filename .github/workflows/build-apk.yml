@@ -113,11 +113,12 @@ jobs:
           # شاشة البداية: خلفية بيضا والصورة في النص (بنشيل splash.png القديمة عشان متتعارضش مع splash.xml)
           find $RES -maxdepth 2 -name 'splash.png' -delete
           mkdir -p $RES/drawable-nodpi $RES/drawable
+          echo '<?xml version="1.0" encoding="utf-8"?><resources><color name="splash_bg">#FFFFFF</color></resources>' > $RES/values/splash_colors.xml
           $IM icon.jpg -resize 512x512! $RES/drawable-nodpi/splash_logo.png
           cat > $RES/drawable/splash.xml <<'XML'
           <?xml version="1.0" encoding="utf-8"?>
           <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-            <item android:drawable="#FFFFFFFF"/>
+            <item android:drawable="@color/splash_bg"/>
             <item android:gravity="center" android:width="170dp" android:height="170dp">
               <bitmap android:src="@drawable/splash_logo" android:gravity="fill"/>
             </item>
