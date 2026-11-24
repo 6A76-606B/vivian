@@ -1,0 +1,105 @@
+# حط الملف ده في: .github/workflows/build-apk.yml  (وجنبه index.html في أول الريبو)
+# بيبني تطبيق أندرويد (APK) من index.html بـ Capacitor، والمايك (الفويسات) متفعّل،
+# وتسجيل الدخول بجوجل بيشتغل بشكل native (جوجل بتمنع الدخول جوه الـ WebView العادي).
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - .github/workflows/build-apk.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APP_ID: com.vefan.app
+      APP_NAME: فيفان
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # مفتاح التوقيع: لازم يفضل ثابت، لأن بصمته (SHA-1) هي اللي بتتسجل في Firebase
+      - name: Signing key
+        env:
+          KS_B64: ${{ secrets.DEBUG_KEYSTORE_B64 }}
+        run: |
+          mkdir -p ~/.android
+          if [ -n "$KS_B64" ]; then
+            printf '%s' "$KS_B64" | base64 -d > ~/.android/debug.keystore
+          else
+            keytool -genkeypair -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey \
+              -keypass android -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US"
+            base64 -w0 ~/.android/debug.keystore > keystore.b64
+            echo "NEW_KEYSTORE=1" >> "$GITHUB_ENV"
+            echo "::warning::اتعمل مفتاح توقيع جديد. نزّل الـ artifact اسمه keystore-b64 وحطه سر DEBUG_KEYSTORE_B64"
+          fi
+          echo "===== بصمة المفتاح (سجّلها في Firebase) ====="
+          keytool -list -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey | grep -E "SHA1|SHA256"
+
+      - name: Save new keystore (first run only)
+        if: env.NEW_KEYSTORE == '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: keystore-b64
+          path: keystore.b64
+
+      - name: Create Capacitor project
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+          npm init -y > /dev/null
+          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7 @capacitor-firebase/authentication@7
+          cat > capacitor.config.json <<EOF
+          {
+            "appId": "$APP_ID",
+            "appName": "$APP_NAME",
+            "webDir": "www",
+            "server": { "androidScheme": "https" },
+            "plugins": {
+              "FirebaseAuthentication": { "skipNativeAuth": true, "providers": ["google.com"] }
+            }
+          }
+          EOF
+          npx cap add android
+
+      # المايك: من غير الصلاحيتين دول الفويسات مش هتسجّل
+      - name: Add microphone permission
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          grep -q 'android.permission.INTERNET' "$M"
+          sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#&\n    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />#' "$M"
+          grep -q 'RECORD_AUDIO' "$M"
+
+      - name: google-services.json
+        env:
+          GS_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GS_JSON" ]; then
+            printf '%s' "$GS_JSON" > android/app/google-services.json
+          else
+            echo "::warning::السر GOOGLE_SERVICES_JSON مش موجود، فتسجيل الدخول بجوجل مش هيشتغل جوه التطبيق"
+          fi
+
+      - name: Build APK
+        run: |
+          npx cap sync android
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vefan-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
