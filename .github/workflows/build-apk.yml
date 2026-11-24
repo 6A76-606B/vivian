@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - index.html
+      - icon.jpg
       - .github/workflows/build-apk.yml
 
 jobs:
@@ -81,6 +82,53 @@ jobs:
           grep -q 'android.permission.INTERNET' "$M"
           sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#&\n    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />#' "$M"
           grep -q 'RECORD_AUDIO' "$M"
+
+      # أيقونة التطبيق + شاشة البداية من نفس صورة فيفان (icon.jpg في الريبو لو موجودة، وإلا من AV جوه index.html)
+      - name: App icon and splash
+        run: |
+          set -e
+          # المصدر: icon.jpg في الريبو لو موجود، وإلا بنسحب الصورة من AV جوه index.html
+          if [ ! -f icon.jpg ]; then
+            node -e "const s=require('fs').readFileSync('index.html','utf8');const m=s.match(/const AV='data:image\/jpeg;base64,([^']+)'/);if(!m)process.exit(1);require('fs').writeFileSync('icon.jpg',Buffer.from(m[1],'base64'))"
+          fi
+          IM=convert; command -v convert >/dev/null || IM="magick"
+          RES=android/app/src/main/res
+          # أيقونة التطبيق (قديمة + دايرية + الـ foreground للأيقونات المتكيّفة)
+          for d in "mdpi 48 108" "hdpi 72 162" "xhdpi 96 216" "xxhdpi 144 324" "xxxhdpi 192 432"; do
+            set -- $d; D=$RES/mipmap-$1; S=$2; F=$3; mkdir -p $D
+            $IM icon.jpg -resize ${S}x${S}! $D/ic_launcher.png
+            C=$((S/2))
+            $IM icon.jpg -resize ${S}x${S}! -alpha set \( -size ${S}x${S} xc:none -fill white -draw "circle $C,$C $C,0" \) -compose DstIn -composite $D/ic_launcher_round.png
+            $IM icon.jpg -resize ${F}x${F}! $D/ic_launcher_foreground.png
+          done
+          mkdir -p $RES/values
+          cat > $RES/values/ic_launcher_background.xml <<'XML'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources><color name="ic_launcher_background">#FFFFFF</color></resources>
+          XML
+          # شاشة البداية: خلفية بيضا والصورة في النص (بنشيل splash.png القديمة عشان متتعارضش مع splash.xml)
+          find $RES -maxdepth 2 -name 'splash.png' -delete
+          mkdir -p $RES/drawable-nodpi $RES/drawable
+          $IM icon.jpg -resize 512x512! $RES/drawable-nodpi/splash_logo.png
+          cat > $RES/drawable/splash.xml <<'XML'
+          <?xml version="1.0" encoding="utf-8"?>
+          <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:drawable="#FFFFFFFF"/>
+            <item android:gravity="center" android:width="170dp" android:height="170dp">
+              <bitmap android:src="@drawable/splash_logo" android:gravity="fill"/>
+            </item>
+          </layer-list>
+          XML
+          mkdir -p $RES/mipmap-anydpi-v26
+          for n in ic_launcher ic_launcher_round; do
+          cat > $RES/mipmap-anydpi-v26/$n.xml <<'XML'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+            <background android:drawable="@color/ic_launcher_background"/>
+            <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+          </adaptive-icon>
+          XML
+          done
 
       # الإشعارات: صلاحية أندرويد 13+ وأيقونة الإشعار (أبيض على شفاف) واللون والقناة الافتراضية
       - name: Notifications setup
