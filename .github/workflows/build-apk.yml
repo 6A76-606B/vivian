@@ -69,7 +69,7 @@ jobs:
             "webDir": "www",
             "server": { "androidScheme": "https" },
             "plugins": {
-              "FirebaseAuthentication": { "skipNativeAuth": true, "providers": ["google.com"] }
+              "FirebaseAuthentication": { "skipNativeAuth": true, "providers": ["google.com"], "useCredentialManager": false }
             }
           }
           EOF
