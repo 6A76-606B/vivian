@@ -69,7 +69,7 @@ jobs:
             "webDir": "www",
             "server": { "androidScheme": "https" },
             "plugins": {
-              "FirebaseAuthentication": { "skipNativeAuth": true, "providers": ["google.com"], "useCredentialManager": false }
+              "FirebaseAuthentication": { "skipNativeAuth": true, "providers": ["google.com"] }
             }
           }
           EOF
@@ -174,6 +174,15 @@ jobs:
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
+
+      - name: Diagnose
+        run: |
+          echo "===== capacitor.config ====="
+          cat capacitor.config.json
+          echo "===== google-services.json (الأجزاء المهمة) ====="
+          grep -E "package_name|certificate_hash|client_type" android/app/google-services.json || echo "الملف مش موجود"
+          echo "===== توقيع الـ APK ====="
+          keytool -printcert -jarfile android/app/build/outputs/apk/debug/app-debug.apk | grep -E "SHA1|SHA256"
 
       - uses: actions/upload-artifact@v4
         with:
